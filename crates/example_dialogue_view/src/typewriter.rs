@@ -92,12 +92,3 @@ fn format_text_for_direction(text: &str, direction: TextDirection) -> String {
         }
     }
 }
-
-/// Complete the typewriter effect immediately
-pub(crate) fn complete_typewriter(
-    mut typewriter_query: Query<&mut Typewriter, With<DialogueNode>>,
-) {
-    for mut typewriter in typewriter_query.iter_mut() {
-        typewriter.complete();
-    }
-}

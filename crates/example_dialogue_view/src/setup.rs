@@ -209,24 +209,6 @@ fn fmt_name(name: &str) -> Name {
     Name::new(format!("Yarn Spinner example dialogue view node: {name}"))
 }
 
-pub(crate) fn create_dialog_text(
-    text: impl Into<String>,
-    invisible: impl Into<String>,
-) -> [(TextSpan, TextFont, TextColor); 2] {
-    [
-        (
-            TextSpan(text.into()),
-            text_style::standard().0,
-            text_style::standard().1,
-        ),
-        (
-            TextSpan(invisible.into()),
-            text_style::standard().0,
-            TextColor(Color::NONE),
-        ),
-    ]
-}
-
 pub(crate) fn spawn_options<'a, T>(entity_commands: &mut EntityCommands, options: T)
 where
     T: IntoIterator<Item = &'a DialogueOption>,
@@ -268,8 +250,6 @@ where
 
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
 const TEXT_BORDER_HORIZONTAL: f32 = 120.0;
-const TEXT_BORDER_TOP: f32 = 30.0;
-const TEXT_BORDER_BOTTOM: f32 = TEXT_BORDER_TOP + 10.0;
 
 mod style {
     use super::*;

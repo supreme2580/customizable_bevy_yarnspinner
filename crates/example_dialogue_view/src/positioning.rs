@@ -4,9 +4,11 @@ use bevy::prelude::*;
 use bevy::render::camera::Camera;
 
 /// Component for 3D positioned dialogue
-#[derive(Component)]
+#[derive(Component, Debug)]
 pub struct Dialogue3DPosition {
+    /// The world position in 3D space where the dialogue should appear
     pub world_position: Vec3,
+    /// Screen offset to apply to the dialogue position
     pub offset: Vec2,
 }
 
@@ -37,23 +39,5 @@ pub fn position_dialogue_3d(
                 transform.translation = Vec3::new(screen_x, screen_y, 0.0);
             }
         }
-    }
-}
-
-/// System to update dialogue position when camera moves
-pub fn update_dialogue_position(
-    _dialogue_queries: Query<&mut Transform, (With<UiRootNode>, With<Dialogue3DPosition>)>,
-    _camera_queries: Query<&GlobalTransform, (With<Camera>, Without<UiRootNode>)>,
-    _windows: Query<&Window>,
-) {
-    // This system will be called when the camera moves
-    // The actual positioning logic is in position_dialogue_3d
-}
-
-/// Helper function to create a 3D positioned dialogue
-pub fn create_3d_dialogue_position(world_position: Vec3, screen_offset: Vec2) -> Dialogue3DPosition {
-    Dialogue3DPosition {
-        world_position,
-        offset: screen_offset,
     }
 }

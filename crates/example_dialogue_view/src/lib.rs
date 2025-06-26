@@ -120,7 +120,7 @@ impl Plugin for ExampleYarnSpinnerDialogueViewPlugin {
             .add_plugins(updating::ui_updating_plugin)
             .add_plugins(typewriter::typewriter_plugin)
             .add_plugins(option_selection::option_selection_plugin)
-            .add_systems(Update, positioning::position_dialogue_3d.run_if(resource_exists::<DialogueViewConfig>));
+            .add_systems(Update, positioning::position_dialogue_3d);
     }
 }
 
