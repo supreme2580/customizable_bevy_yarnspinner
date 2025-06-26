@@ -1,5 +1,5 @@
 use crate::assets::{font_handle, image_handle};
-use crate::config::{DialogueViewConfig, TextDirection};
+use crate::config::{DialogueViewConfig, TextDirection, TextAlignment};
 use crate::positioning::Dialogue3DPosition;
 use bevy::ecs::system::EntityCommands;
 use bevy::prelude::*;
@@ -108,6 +108,11 @@ fn setup(mut commands: Commands, config: Option<Res<DialogueViewConfig>>) {
                     Text::default(),
                     text_style::standard(),
                     style::standard(),
+                    Node {
+                        justify_content: get_text_justify_content(config.text_alignment),
+                        align_items: get_text_align_items(config.text_alignment),
+                        ..default()
+                    },
                     DialogueNode,
                     Label,
                 ));
@@ -177,6 +182,26 @@ fn get_align_items(text_direction: TextDirection) -> AlignItems {
         TextDirection::RightToLeft => AlignItems::FlexEnd,
         TextDirection::TopToBottom => AlignItems::FlexStart,
         TextDirection::BottomToTop => AlignItems::FlexEnd,
+    }
+}
+
+/// Get the appropriate justify content based on text alignment
+fn get_text_justify_content(text_alignment: TextAlignment) -> JustifyContent {
+    match text_alignment {
+        TextAlignment::Left => JustifyContent::FlexStart,
+        TextAlignment::Center => JustifyContent::Center,
+        TextAlignment::Right => JustifyContent::FlexEnd,
+        TextAlignment::Justified => JustifyContent::SpaceBetween,
+    }
+}
+
+/// Get the appropriate align items based on text alignment
+fn get_text_align_items(text_alignment: TextAlignment) -> AlignItems {
+    match text_alignment {
+        TextAlignment::Left => AlignItems::FlexStart,
+        TextAlignment::Center => AlignItems::Center,
+        TextAlignment::Right => AlignItems::FlexEnd,
+        TextAlignment::Justified => AlignItems::Stretch,
     }
 }
 

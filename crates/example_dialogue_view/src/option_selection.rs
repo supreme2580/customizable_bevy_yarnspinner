@@ -1,6 +1,5 @@
 use crate::setup::{spawn_options, DialogueNode, OptionButton, OptionsNode, UiRootNode};
-use crate::typewriter::{self, Typewriter, TypewriterFinishedEvent};
-use crate::ExampleYarnSpinnerDialogueViewSystemSet;
+use crate::typewriter::Typewriter;
 use bevy::color::palettes::css;
 use bevy::platform::collections::HashMap;
 use bevy::prelude::*;
@@ -12,16 +11,12 @@ pub(crate) fn option_selection_plugin(app: &mut App) {
     app.add_systems(
         Update,
         (
-            create_options.run_if(resource_added::<OptionSelection>),
-            show_options,
-            select_option
-                .run_if(resource_exists::<OptionSelection>.and(any_with_component::<PrimaryWindow>))
-                .before(typewriter::despawn),
+            create_options,
+            select_option,
             despawn_options,
         )
             .chain()
-            .after(YarnSpinnerSystemSet)
-            .in_set(ExampleYarnSpinnerDialogueViewSystemSet),
+            .after(YarnSpinnerSystemSet),
     )
     .add_event::<HasSelectedOptionEvent>();
 }
@@ -51,13 +46,17 @@ fn create_options(
     children: Query<&Children>,
     options_node: Single<(Entity, &mut Node, &mut Visibility), With<OptionsNode>>,
     mut root_visibility: Single<&mut Visibility, (With<UiRootNode>, Without<OptionsNode>)>,
-    typewriter: Res<Typewriter>,
+    typewriter_query: Query<&Typewriter, With<DialogueNode>>,
 ) {
     let (entity, mut node, mut visibility) = options_node.into_inner();
     node.display = Display::Flex;
-    if !typewriter.is_finished() {
+
+    // Check if typewriter is finished
+    let is_finished = typewriter_query.iter().all(|tw| tw.is_finished());
+    if !is_finished {
         *visibility = Visibility::Hidden;
     }
+
     if children.iter_descendants(entity).next().is_none() {
         **root_visibility = Visibility::Inherited;
         let mut entity_commands = commands.entity(entity);
@@ -65,19 +64,10 @@ fn create_options(
     }
 }
 
-fn show_options(
-    mut typewriter_finished_event: EventReader<TypewriterFinishedEvent>,
-    mut options_node: Single<&mut Visibility, With<OptionsNode>>,
-) {
-    for _event in typewriter_finished_event.read() {
-        **options_node = Visibility::Inherited;
-    }
-}
-
 fn select_option(
     mut commands: Commands,
     keys: Res<ButtonInput<KeyCode>>,
-    typewriter: Res<Typewriter>,
+    typewriter_query: Query<&Typewriter, With<DialogueNode>>,
     mut buttons: Query<(Entity, &Interaction, &OptionButton), (With<Button>, Changed<Interaction>)>,
     mut dialogue_runners: Query<&mut DialogueRunner>,
     mut text_writer: TextUiWriter,
@@ -85,7 +75,9 @@ fn select_option(
     window: Single<Entity, With<PrimaryWindow>>,
     mut selected_option_event: EventWriter<HasSelectedOptionEvent>,
 ) {
-    if !typewriter.is_finished() {
+    // Check if typewriter is finished
+    let is_finished = typewriter_query.iter().all(|tw| tw.is_finished());
+    if !is_finished {
         return;
     }
 

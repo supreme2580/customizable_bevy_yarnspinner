@@ -5,6 +5,8 @@ use bevy::prelude::*;
 pub struct DialogueViewConfig {
     /// Text direction for the dialogue
     pub text_direction: TextDirection,
+    /// Text alignment within the dialogue box
+    pub text_alignment: TextAlignment,
     /// Size of the dialogue box
     pub dialogue_size: DialogueSize,
     /// 3D position for the dialogue (if using 3D positioning)
@@ -23,6 +25,7 @@ impl Default for DialogueViewConfig {
     fn default() -> Self {
         Self {
             text_direction: TextDirection::LeftToRight,
+            text_alignment: TextAlignment::Left,
             dialogue_size: DialogueSize::default(),
             position_3d: None,
             use_3d_positioning: false,
@@ -44,6 +47,19 @@ pub enum TextDirection {
     TopToBottom,
     /// Bottom to top (for vertical text)
     BottomToTop,
+}
+
+/// Text alignment options for dialogue
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TextAlignment {
+    /// Left-aligned text
+    Left,
+    /// Center-aligned text
+    Center,
+    /// Right-aligned text
+    Right,
+    /// Justified text
+    Justified,
 }
 
 /// Dialogue size configuration
@@ -107,6 +123,12 @@ impl DialogueViewConfig {
     /// Set the text direction
     pub fn with_text_direction(mut self, direction: TextDirection) -> Self {
         self.text_direction = direction;
+        self
+    }
+
+    /// Set the text alignment
+    pub fn with_text_alignment(mut self, alignment: TextAlignment) -> Self {
+        self.text_alignment = alignment;
         self
     }
 

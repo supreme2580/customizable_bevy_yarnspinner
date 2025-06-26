@@ -36,6 +36,7 @@
 //!    .add_plugins(DefaultPlugins)
 //!    .add_plugins(YarnSpinnerPlugin::new())
 //!    .insert_resource(DialogueViewConfig::default()
+//!        .with_text_alignment(TextAlignment::Center)
 //!        .with_text_direction(TextDirection::RightToLeft)
 //!        .with_size(DialogueSize::fixed(600.0, 150.0))
 //!        .with_3d_position(Vec3::new(0.0, 2.0, 0.0))
@@ -70,7 +71,7 @@ pub mod prelude {
     //! Everything you need to get starting using this example Yarn Spinner dialogue view.
     pub use crate::{
         ExampleYarnSpinnerDialogueViewPlugin, ExampleYarnSpinnerDialogueViewSystemSet,
-        SpeakerChangeEvent, DialogueViewConfig, TextDirection, DialogueSize,
+        SpeakerChangeEvent, DialogueViewConfig, TextDirection, TextAlignment, DialogueSize,
     };
 }
 
@@ -124,7 +125,7 @@ impl Plugin for ExampleYarnSpinnerDialogueViewPlugin {
 }
 
 // Re-export configuration types for easy access
-pub use config::{DialogueViewConfig, TextDirection, DialogueSize};
+pub use config::{DialogueViewConfig, TextDirection, TextAlignment, DialogueSize};
 pub use positioning::Dialogue3DPosition;
 
 #[cfg(doctest)]
