@@ -107,10 +107,10 @@ fn setup(mut commands: Commands, config: Option<Res<DialogueViewConfig>>) {
                     fmt_name("text"),
                     Text::default(),
                     text_style::standard(),
-                    style::standard(),
                     Node {
                         justify_content: get_text_justify_content(config.text_alignment),
                         align_items: get_text_align_items(config.text_alignment),
+                        max_width: Val::Px(DIALOG_WIDTH - 2.0 * TEXT_BORDER_HORIZONTAL),
                         ..default()
                     },
                     DialogueNode,
@@ -249,16 +249,6 @@ where
 
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
 const TEXT_BORDER_HORIZONTAL: f32 = 120.0;
-
-mod style {
-    use super::*;
-    pub(crate) fn standard() -> Node {
-        Node {
-            max_width: Val::Px(DIALOG_WIDTH - 2.0 * TEXT_BORDER_HORIZONTAL),
-            ..default()
-        }
-    }
-}
 
 mod text_style {
     use super::*;
