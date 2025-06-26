@@ -230,7 +230,6 @@ where
                             fmt_name("option text"),
                             Button,
                             Text::default(),
-                            style::options(),
                             ImageNode::default().with_color(Color::NONE),
                             OptionButton(option.id),
                             Label,
@@ -256,14 +255,6 @@ mod style {
     pub(crate) fn standard() -> Node {
         Node {
             max_width: Val::Px(DIALOG_WIDTH - 2.0 * TEXT_BORDER_HORIZONTAL),
-            ..default()
-        }
-    }
-    pub(crate) fn options() -> Node {
-        const INDENT_MODIFIER: f32 = 1.0;
-        Node {
-            margin: UiRect::horizontal(Val::Px((INDENT_MODIFIER - 1.0) * TEXT_BORDER_HORIZONTAL)),
-            max_width: Val::Px(DIALOG_WIDTH - 2.0 * INDENT_MODIFIER * TEXT_BORDER_HORIZONTAL),
             ..default()
         }
     }
