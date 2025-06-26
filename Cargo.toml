@@ -1,0 +1,23 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "crates/example_dialogue_view",
+    "crates/bevy_plugin",
+    "crates/yarnspinner",
+    "crates/runtime",
+    "crates/compiler",
+    "crates/core",
+    "crates/codegen",
+    "demo",
+    "examples/bevy_yarnspinner",
+    "examples/yarnspinner_without_bevy",
+]
+
+# Source: https://github.com/bevyengine/bevy/blob/main/examples/README.md#1-tweak-your-cargotoml
+## Make Wasm builds as small as possible
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1

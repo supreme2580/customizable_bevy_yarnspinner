@@ -1,0 +1,22 @@
+[package]
+name = "yarnspinner_codegen"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/YarnSpinnerTool/YarnSpinner-Rust"
+homepage = "https://docs.yarnspinner.dev/"
+categories = ["game-development"]
+authors = ["Jan Hohenheim <jan@hohenheim.ch>"]
+license = "MIT OR Apache-2.0"
+description = "Code generation for Yarn Spinner for Rust, the friendly tool for writing game dialogue"
+
+[features]
+default = []
+proto = ["dep:prost", "dep:prost-build"]
+
+[[bin]]
+name = "generate_proto"
+required-features = ["proto"]
+
+[dependencies]
+prost = { version = "0.12", optional = true }
+prost-build = { version = "0.12", optional = true }
