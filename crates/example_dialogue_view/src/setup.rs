@@ -70,7 +70,6 @@ fn setup(mut commands: Commands, config: Option<Res<DialogueViewConfig>>) {
         parent.spawn((
             fmt_name("name"),
             Text::default(),
-            text_style::name(),
             Node {
                 margin: UiRect {
                     left: Val::Px(TEXT_BORDER_HORIZONTAL / 2.0),
@@ -106,7 +105,6 @@ fn setup(mut commands: Commands, config: Option<Res<DialogueViewConfig>>) {
                 parent.spawn((
                     fmt_name("text"),
                     Text::default(),
-                    text_style::standard(),
                     Node {
                         justify_content: get_text_justify_content(config.text_alignment),
                         align_items: get_text_align_items(config.text_alignment),
@@ -261,16 +259,6 @@ mod text_style {
                 ..default()
             },
             TextColor(Color::WHITE),
-        )
-    }
-    pub(crate) fn name() -> (TextFont, TextColor) {
-        (
-            TextFont {
-                font: font_handle::MEDIUM,
-                font_size: 18.0,
-                ..standard().0
-            },
-            standard().1,
         )
     }
 
