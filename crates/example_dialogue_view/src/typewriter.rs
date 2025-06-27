@@ -38,7 +38,7 @@ impl Typewriter {
 }
 
 fn typewriter(
-    mut typewriter_query: Query<(&mut Typewriter, &mut Text), With<DialogueNode>>,
+    mut typewriter_query: Query<(&mut Typewriter, &mut Text, &mut TextColor, &mut TextFont), With<DialogueNode>>,
     config: Option<Res<DialogueViewConfig>>,
     time: Res<Time>,
 ) {
@@ -48,7 +48,7 @@ fn typewriter(
         DialogueViewConfig::default()
     };
 
-    for (mut typewriter, mut text) in typewriter_query.iter_mut() {
+    for (mut typewriter, mut text, mut color, mut font) in typewriter_query.iter_mut() {
         if typewriter.is_complete {
             continue;
         }
@@ -67,8 +67,11 @@ fn typewriter(
             // Format text based on direction
             let formatted_invisible = format_text_for_direction(&typewriter.invisible, config.text_direction);
 
-            // Update the text for the typewriter effect
-            *text = bevy::prelude::Text(formatted_invisible);
+            // Set the text, color, and font size
+            text.0 = formatted_invisible;
+            color.0 = config.text_color; // Use the color from DialogueViewConfig
+            font.font_size = 24.0; // Or your preferred size
+            // font.font = my_font_handle.clone().into(); // Set this if you want a custom font
         }
     }
 }

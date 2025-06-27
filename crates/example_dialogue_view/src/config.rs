@@ -19,6 +19,8 @@ pub struct DialogueViewConfig {
     pub border_radius: f32,
     /// Padding around the text
     pub padding: UiRect,
+    /// Text color for the dialogue
+    pub text_color: Color,
 }
 
 impl Default for DialogueViewConfig {
@@ -32,6 +34,7 @@ impl Default for DialogueViewConfig {
             background_color: Color::BLACK.with_alpha(0.8),
             border_radius: 20.0,
             padding: UiRect::all(Val::Px(20.0)),
+            text_color: Color::WHITE,
         }
     }
 }
@@ -166,6 +169,12 @@ impl DialogueViewConfig {
     /// Set the padding
     pub fn with_padding(mut self, padding: UiRect) -> Self {
         self.padding = padding;
+        self
+    }
+
+    /// Set the text color
+    pub fn with_text_color(mut self, color: Color) -> Self {
+        self.text_color = color;
         self
     }
 }
