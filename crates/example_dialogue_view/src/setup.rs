@@ -1,4 +1,4 @@
-use crate::assets::{font_handle, image_handle};
+use crate::assets::image_handle;
 use crate::config::{DialogueViewConfig, TextDirection, TextAlignment};
 use crate::positioning::Dialogue3DPosition;
 use bevy::ecs::system::EntityCommands;
@@ -234,10 +234,9 @@ where
                         ))
                         .with_children(|parent| {
                             parent
-                                .spawn((TextSpan(format!("{}: ", i + 1)), text_style::option_id()));
+                                .spawn(TextSpan(format!("{}: ", i + 1)));
                             parent.spawn((
                                 TextSpan(option.line.text.clone()),
-                                text_style::option_text(),
                             ));
                         });
                 });
@@ -247,38 +246,3 @@ where
 
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
 const TEXT_BORDER_HORIZONTAL: f32 = 120.0;
-
-mod text_style {
-    use super::*;
-    use bevy::color::palettes::css;
-    pub(crate) fn standard() -> (TextFont, TextColor) {
-        (
-            TextFont {
-                font: font_handle::MEDIUM,
-                font_size: 20.0,
-                ..default()
-            },
-            TextColor(Color::WHITE),
-        )
-    }
-
-    pub(crate) fn option_id() -> (TextFont, TextColor) {
-        (
-            TextFont {
-                font: font_handle::MEDIUM,
-                ..option_text().0
-            },
-            TextColor(css::ALICE_BLUE.into()),
-        )
-    }
-
-    pub(crate) fn option_text() -> (TextFont, TextColor) {
-        (
-            TextFont {
-                font_size: 18.0,
-                ..standard().0
-            },
-            TextColor(css::TOMATO.into()),
-        )
-    }
-}
